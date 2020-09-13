@@ -12,3 +12,7 @@ multiple Flutter or Dart projects.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
+
+## Output
+<img src="https://github.com/Purvik/SwipeTo/blob/master/example/output/android.gif" width="256" height="512" title="Swipe To Android Output">
+<img src="https://github.com/Purvik/SwipeTo/blob/master/example/output/ios.gif" width="256" height="512" title="Swipe To iOS Output">
