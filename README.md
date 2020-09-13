@@ -14,5 +14,5 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## Output
-<img src="https://github.com/Purvik/SwipeTo/blob/master/example/output/android.gif" width="256" height="512" title="Swipe To Android Output">
-<img src="https://github.com/Purvik/SwipeTo/blob/master/example/output/ios.gif" width="256" height="512" title="Swipe To iOS Output">
+<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/android.gif" width="256" height="512" title="Swipe To Android Output">
+<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/ios.gif" width="256" height="512" title="Swipe To iOS Output">
