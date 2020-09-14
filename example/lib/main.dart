@@ -29,12 +29,14 @@ class AppHome extends StatefulWidget {
 }
 
 class _AppHomeState extends State<AppHome> {
-  String _reply;
+  String _replyForRight;
+  String _replyForLeft;
 
   @override
   void initState() {
     super.initState();
-    _reply = '';
+    _replyForRight = '';
+    _replyForLeft = '';
   }
 
   @override
@@ -52,47 +54,108 @@ class _AppHomeState extends State<AppHome> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SwipeTo(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(
-                      10.0,
+            ///SwipeToRight Example
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SwipeTo(
+                  swipeDirection: SwipeDirection.swipeToRight,
+                  endOffset: Offset(0.3, 0.0),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade100,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(
+                          10.0,
+                        ),
+                      ),
                     ),
+                    child: Text('Hey You! Swipe me right 👉🏿'),
                   ),
+                  callBack: () {
+                    print('Handling callback after animation end');
+                    _displayInputBottomSheet(SwipeDirection.swipeToRight);
+                  },
                 ),
-                child: Text('Hey You! Swipe me right 👉🏿'),
-              ),
-              callBack: () {
-                print('Handling callback after animation end');
-                _displayInputBottomSheet();
-              },
-            ),
-            Visibility(
-              visible: _reply.isNotEmpty,
-              replacement: SizedBox(),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        10.0,
+                Visibility(
+                  visible: _replyForRight.isNotEmpty,
+                  replacement: SizedBox(),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade100,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            10.0,
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        _replyForRight,
                       ),
                     ),
                   ),
-                  child: Text(
-                    _reply,
+                ),
+              ],
+            ),
+
+            ///SwipeToLeft Example
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                SwipeTo(
+                  swipeDirection: SwipeDirection.swipeToLeft,
+                  endOffset: Offset(-0.3, 0.0),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade100,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(
+                          10.0,
+                        ),
+                      ),
+                    ),
+                    child: Text('👈🏿 Hey You! Swipe me Left'),
+                  ),
+                  callBack: () {
+                    print('Handling callback after animation end');
+                    _displayInputBottomSheet(SwipeDirection.swipeToLeft);
+                  },
+                ),
+                Visibility(
+                  visible: _replyForLeft.isNotEmpty,
+                  replacement: SizedBox(),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade100,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            10.0,
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        _replyForLeft,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
@@ -100,14 +163,18 @@ class _AppHomeState extends State<AppHome> {
     );
   }
 
-  void _handleReply(String reply) {
+  void _handleReply(String reply, SwipeDirection swipeDirection) {
     Navigator.pop(context);
     setState(() {
-      _reply = reply;
+      if (swipeDirection == SwipeDirection.swipeToRight) {
+        _replyForRight = reply;
+      } else {
+        _replyForLeft = reply;
+      }
     });
   }
 
-  void _displayInputBottomSheet() {
+  void _displayInputBottomSheet(SwipeDirection swipeDirection) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -123,7 +190,7 @@ class _AppHomeState extends State<AppHome> {
             child: TextField(
               autofocus: true,
               textInputAction: TextInputAction.done,
-              onSubmitted: (value) => _handleReply(value),
+              onSubmitted: (value) => _handleReply(value, swipeDirection),
               decoration: InputDecoration(
                 labelText: 'Reply',
                 hintText: 'enter reply here',
