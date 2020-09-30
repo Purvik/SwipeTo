@@ -8,4 +8,6 @@
 * Added SwipeToLeft and SwipeToRight functionality.
 * Added Example with more detail. 
 * Updated Package Description with Example. 
+## [0.0.1+4] - 2020-09-30
+* Assert check updated and proper error displayed.
 

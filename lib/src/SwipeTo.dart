@@ -49,7 +49,15 @@ class SwipeTo extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 150),
     this.endOffset = const Offset(0.3, 0.0),
   })  : assert(child != null, "You must pass a child widget."),
-        assert(callBack != null, "You must pass a callback.");
+        assert(callBack != null, "You must pass a callback."),
+        assert(
+            ((swipeDirection == SwipeDirection.swipeToLeft &&
+                    endOffset.dx <= -0.3 &&
+                    endOffset.dy == 0.0) ||
+                (swipeDirection == SwipeDirection.swipeToRight &&
+                    endOffset.dx >= 0.3 &&
+                    endOffset.dy == 0.0)),
+            "For value swipeToLeft Offset(dx,..) value must be <=-0.3 & for value swipeToRight Offset(dx,..) value must be >=0.3");
 
   @override
   _SwipeToState createState() => _SwipeToState();
