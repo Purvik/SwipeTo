@@ -64,8 +64,7 @@ class _AppHomeState extends State<AppHome> {
                   endOffset: Offset(0.3, 0.0),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.blue.shade100,
                       borderRadius: BorderRadius.all(
@@ -87,8 +86,7 @@ class _AppHomeState extends State<AppHome> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
                       decoration: BoxDecoration(
                         color: Colors.blue.shade100,
                         borderRadius: BorderRadius.all(
@@ -114,10 +112,14 @@ class _AppHomeState extends State<AppHome> {
                 SwipeTo(
                   swipeDirection: SwipeDirection.swipeToLeft,
                   endOffset: Offset(-0.3, 0.0),
+                  icon: Icon(
+                    Icons.reply_all,
+                    size: 30,
+                    color: Colors.red,
+                  ),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.blue.shade100,
                       borderRadius: BorderRadius.all(
@@ -139,8 +141,7 @@ class _AppHomeState extends State<AppHome> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
                       decoration: BoxDecoration(
                         color: Colors.blue.shade100,
                         borderRadius: BorderRadius.all(

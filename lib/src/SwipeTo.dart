@@ -30,6 +30,14 @@ class SwipeTo extends StatefulWidget {
   ///if not specified primaryColor from theme will be taken
   final Color iconColor;
 
+  /// custom widget that will be displayed beneath child widget
+  /// you can use any flutter widget of your choice to display this child
+  /// if SwipeDirection == swipeToLeft then it will be shown to left side or right side
+  /// If icon widget is provided then this widget will be placed
+  /// irrespective or iconData, iconColor, iconSize properties means it will not be considered if icon
+  /// widget is provided if it is not provided then this properties will be applied to default Icon() widget
+  final Widget icon;
+
   /// Offset value till which position child widget will get animate
   /// Make sure to pass relative value align to passed SwipeDirection enum value
   /// if not specified Offset(0.3, 0.0) default will be taken
@@ -46,14 +54,13 @@ class SwipeTo extends StatefulWidget {
     this.iconData = Icons.reply,
     this.iconSize = 26.0,
     this.iconColor,
+    this.icon,
     this.animationDuration = const Duration(milliseconds: 150),
     this.endOffset = const Offset(0.3, 0.0),
   })  : assert(child != null, "You must pass a child widget."),
         assert(callBack != null, "You must pass a callback."),
         assert(
-            ((swipeDirection == SwipeDirection.swipeToLeft &&
-                    endOffset.dx <= -0.3 &&
-                    endOffset.dy == 0.0) ||
+            ((swipeDirection == SwipeDirection.swipeToLeft && endOffset.dx <= -0.3 && endOffset.dy == 0.0) ||
                 (swipeDirection == SwipeDirection.swipeToRight &&
                     endOffset.dx >= 0.3 &&
                     endOffset.dy == 0.0)),
@@ -105,14 +112,12 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (widget.swipeDirection == SwipeDirection.swipeToRight &&
-            details.delta.dx > 1) {
+        if (widget.swipeDirection == SwipeDirection.swipeToRight && details.delta.dx > 1) {
           _controller.forward().whenComplete(() {
             _controller.reverse().whenComplete(() => widget.callBack());
           });
         }
-        if (widget.swipeDirection == SwipeDirection.swipeToLeft &&
-            details.delta.dx < -1) {
+        if (widget.swipeDirection == SwipeDirection.swipeToLeft && details.delta.dx < -1) {
           _controller.forward().whenComplete(() {
             _controller.reverse().whenComplete(() => widget.callBack());
           });
@@ -126,11 +131,13 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
         children: [
           FadeTransition(
             opacity: iconFadeAnimation,
-            child: Icon(
-              widget.iconData,
-              size: widget.iconSize,
-              color: widget.iconColor ?? Theme.of(context).iconTheme.color,
-            ),
+            child: widget.icon != null
+                ? widget.icon
+                : Icon(
+                    widget.iconData,
+                    size: widget.iconSize,
+                    color: widget.iconColor ?? Theme.of(context).iconTheme.color,
+                  ),
           ),
           SlideTransition(
             position: animation,
