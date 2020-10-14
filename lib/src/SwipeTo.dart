@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-enum SwipeDirection { swipeToLeft, swipeToRight }
-
 /// SwipeTo is a wrapper widget to other Widget that we can swipe horizontally
 /// to initiate a callback when animation gets end.
 /// It is useful to develop and What's App kind of replay animation for a
@@ -12,52 +10,50 @@ class SwipeTo extends StatefulWidget {
   final Widget child;
 
   /// Duration value to define animation duration
+  /// if not passed default Duration(milliseconds: 150) will be taken
   final Duration animationDuration;
 
-  /// Enum value from [swipeToLeft, swipeToRight] only
-  /// Make sure to pass relative Offset value according to passed Offset value
-  /// If not specified swipeToRight will be taken as default
-  final SwipeDirection swipeDirection;
+  /// Icon that will be displayed beneath child widget when swipe right
+  final IconData iconOnRightSwipe;
 
-  /// Icon that will be displayed beneath child widget
-  final IconData iconData;
+  /// Icon that will be displayed beneath child widget when swipe left
+  final IconData iconOnLeftSwipe;
 
   /// double value defining size of displayed icon beneath child widget
-  /// if not specified default it will take 26
+  /// if not specified default size 26 will be taken
   final double iconSize;
 
   /// color value defining color of displayed icon beneath child widget
   ///if not specified primaryColor from theme will be taken
   final Color iconColor;
 
-  /// Offset value till which position child widget will get animate
-  /// Make sure to pass relative value align to passed SwipeDirection enum value
-  /// if not specified Offset(0.3, 0.0) default will be taken
-  final Offset endOffset;
+  /// Double value till which position child widget will get animate when swipe left
+  /// or swipe right
+  /// if not specified 0.3 default will be taken for Right Swipe &
+  /// it's negative -0.3 will bve taken for Left Swipe
+  final double offsetDx;
 
-  /// callback which will be initiated at then end of child widget animation
-  /// @required parameter
-  final VoidCallback callBack;
+  /// callback which will be initiated at the end of child widget animation
+  /// when swiped right
+  /// if not passed swipe to right will be not available
+  final VoidCallback onRightSwipe;
+
+  /// callback which will be initiated at the end of child widget animation
+  /// when swiped left
+  /// if not passed swipe to left will be not available
+  final VoidCallback onLeftSwipe;
 
   SwipeTo({
     @required this.child,
-    @required this.callBack,
-    this.swipeDirection = SwipeDirection.swipeToRight,
-    this.iconData = Icons.reply,
+    this.onRightSwipe,
+    this.onLeftSwipe,
+    this.iconOnRightSwipe = Icons.reply,
+    this.iconOnLeftSwipe = Icons.reply,
     this.iconSize = 26.0,
     this.iconColor,
     this.animationDuration = const Duration(milliseconds: 150),
-    this.endOffset = const Offset(0.3, 0.0),
-  })  : assert(child != null, "You must pass a child widget."),
-        assert(callBack != null, "You must pass a callback."),
-        assert(
-            ((swipeDirection == SwipeDirection.swipeToLeft &&
-                    endOffset.dx <= -0.3 &&
-                    endOffset.dy == 0.0) ||
-                (swipeDirection == SwipeDirection.swipeToRight &&
-                    endOffset.dx >= 0.3 &&
-                    endOffset.dy == 0.0)),
-            "For value swipeToLeft Offset(dx,..) value must be <=-0.3 & for value swipeToRight Offset(dx,..) value must be >=0.3");
+    this.offsetDx = 0.3,
+  }) : assert(child != null, "You must pass a child widget.");
 
   @override
   _SwipeToState createState() => _SwipeToState();
@@ -65,8 +61,9 @@ class SwipeTo extends StatefulWidget {
 
 class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animation<Offset> animation;
-  Animation<double> iconFadeAnimation;
+  Animation<Offset> _animation;
+  Animation<double> _leftIconAnimation;
+  Animation<double> _rightIconAnimation;
 
   @override
   initState() {
@@ -75,24 +72,21 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: widget.animationDuration,
     );
-    animation = Tween(
+    _animation = Tween<Offset>(
       begin: const Offset(0.0, 0.0),
-      end: widget.endOffset,
+      end: Offset(0.0, 0.0),
     ).animate(
-      CurvedAnimation(
-        curve: Curves.decelerate,
-        parent: _controller,
-      ),
+      CurvedAnimation(curve: Curves.decelerate, parent: _controller),
     );
-    iconFadeAnimation = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
-      CurvedAnimation(
-        curve: Curves.decelerate,
-        parent: _controller,
-      ),
+    _leftIconAnimation = _controller.drive(
+      Tween<double>(begin: 0.0, end: 0.0),
     );
+    _rightIconAnimation = _controller.drive(
+      Tween<double>(begin: 0.0, end: 0.0),
+    );
+    _controller.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -101,39 +95,92 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  ///Run animation for child widget
+  ///[onRight] value defines animation Offset direction
+  void _runAnimation({bool onRight}) {
+    //set child animation
+    _animation = Tween(
+      begin: const Offset(0.0, 0.0),
+      end: Offset(onRight ? widget.offsetDx : -widget.offsetDx, 0.0),
+    ).animate(
+      CurvedAnimation(curve: Curves.decelerate, parent: _controller),
+    );
+    //set back left/right icon animation
+    if (onRight) {
+      _leftIconAnimation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(curve: Curves.decelerate, parent: _controller),
+      );
+    } else {
+      _rightIconAnimation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(curve: Curves.decelerate, parent: _controller),
+      );
+    }
+    //Forward animation
+    _controller.forward().whenComplete(() {
+      _controller.reverse().whenComplete(() {
+        if (onRight) {
+          //keep left icon visibility to 0.0 until onRightSwipe triggers again
+          _leftIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
+          widget.onRightSwipe();
+        } else {
+          //keep right icon visibility to 0.0 until onLeftSwipe triggers again
+          _rightIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
+          widget.onLeftSwipe();
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (widget.swipeDirection == SwipeDirection.swipeToRight &&
-            details.delta.dx > 1) {
-          _controller.forward().whenComplete(() {
-            _controller.reverse().whenComplete(() => widget.callBack());
-          });
+        if (widget.onRightSwipe != null && details.delta.dx > 1) {
+          _runAnimation(onRight: true);
         }
-        if (widget.swipeDirection == SwipeDirection.swipeToLeft &&
-            details.delta.dx < -1) {
-          _controller.forward().whenComplete(() {
-            _controller.reverse().whenComplete(() => widget.callBack());
-          });
+        if (widget.onLeftSwipe != null && details.delta.dx < -1) {
+          _runAnimation(onRight: false);
         }
       },
       child: Stack(
-        alignment: widget.swipeDirection == SwipeDirection.swipeToRight
-            ? Alignment.centerLeft
-            : Alignment.centerRight,
-        fit: StackFit.loose,
+        alignment: Alignment.center,
+        fit: StackFit.passthrough,
         children: [
-          FadeTransition(
-            opacity: iconFadeAnimation,
-            child: Icon(
-              widget.iconData,
-              size: widget.iconSize,
-              color: widget.iconColor ?? Theme.of(context).iconTheme.color,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Visibility(
+                visible: widget.onRightSwipe != null,
+                child: AnimatedOpacity(
+                  opacity: _leftIconAnimation.value,
+                  duration: widget.animationDuration,
+                  curve: Curves.decelerate,
+                  child: Icon(
+                    widget.iconOnLeftSwipe,
+                    size: widget.iconSize,
+                    color:
+                        widget.iconColor ?? Theme.of(context).iconTheme.color,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.onLeftSwipe != null,
+                child: AnimatedOpacity(
+                  opacity: _rightIconAnimation.value,
+                  duration: widget.animationDuration,
+                  curve: Curves.decelerate,
+                  child: Icon(
+                    widget.iconOnRightSwipe,
+                    size: widget.iconSize,
+                    color:
+                        widget.iconColor ?? Theme.of(context).iconTheme.color,
+                  ),
+                ),
+              ),
+            ],
           ),
           SlideTransition(
-            position: animation,
+            position: _animation,
             child: widget.child,
           ),
         ],
