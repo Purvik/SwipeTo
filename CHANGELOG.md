@@ -10,4 +10,9 @@
 * Updated Package Description with Example. 
 ## [0.0.1+4] - 2020-09-30
 * Assert check updated and proper error displayed.
+## [0.0.1+5] - 2020-10-14
+* Added feature to enable swipe on both direction
+* Major Update - SwipeDirection parameter @deprecated now
+* Swipe to left or right feature enabled by onLeftSwipe and onRightSwipe callbacks
+* For more info please refer updated documents  
 

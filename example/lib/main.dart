@@ -29,19 +29,12 @@ class AppHome extends StatefulWidget {
 }
 
 class _AppHomeState extends State<AppHome> {
-  String _replyForRight;
-  String _replyForLeft;
-
-  @override
-  void initState() {
-    super.initState();
-    _replyForRight = '';
-    _replyForLeft = '';
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Swipe To Example'),
       ),
@@ -60,33 +53,10 @@ class _AppHomeState extends State<AppHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SwipeTo(
-                  swipeDirection: SwipeDirection.swipeToRight,
-                  endOffset: Offset(0.3, 0.0),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(
-                          10.0,
-                        ),
-                      ),
-                    ),
-                    child: Text('Hey You! Swipe me right 👉🏿'),
-                  ),
-                  callBack: () {
-                    print('Handling callback after animation end');
-                    _displayInputBottomSheet(SwipeDirection.swipeToRight);
-                  },
-                ),
-                Visibility(
-                  visible: _replyForRight.isNotEmpty,
-                  replacement: SizedBox(),
                   child: Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.centerLeft,
                     child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 8.0),
                       decoration: BoxDecoration(
@@ -97,11 +67,12 @@ class _AppHomeState extends State<AppHome> {
                           ),
                         ),
                       ),
-                      child: Text(
-                        _replyForRight,
-                      ),
+                      child: Text('Hey You! Swipe me right 👉🏿'),
                     ),
                   ),
+                  onRightSwipe: () {
+                    _displayInputBottomSheet(true);
+                  },
                 ),
               ],
             ),
@@ -112,8 +83,36 @@ class _AppHomeState extends State<AppHome> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 SwipeTo(
-                  swipeDirection: SwipeDirection.swipeToLeft,
-                  endOffset: Offset(-0.3, 0.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade100,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            10.0,
+                          ),
+                        ),
+                      ),
+                      child: Text('👈🏿 Hey You! Swipe me Left'),
+                    ),
+                  ),
+                  onLeftSwipe: () {
+                    _displayInputBottomSheet(false);
+                  },
+                ),
+              ],
+            ),
+
+            ///SwipeToRight & SwipeToLeft Example
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                SwipeTo(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     padding: const EdgeInsets.symmetric(
@@ -126,34 +125,14 @@ class _AppHomeState extends State<AppHome> {
                         ),
                       ),
                     ),
-                    child: Text('👈🏿 Hey You! Swipe me Left'),
+                    child: Text('👈🏿 Swipe me Left OR Swipe me right 👉🏿 '),
                   ),
-                  callBack: () {
-                    print('Handling callback after animation end');
-                    _displayInputBottomSheet(SwipeDirection.swipeToLeft);
+                  onRightSwipe: () {
+                    _displayInputBottomSheet(true);
                   },
-                ),
-                Visibility(
-                  visible: _replyForLeft.isNotEmpty,
-                  replacement: SizedBox(),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            10.0,
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        _replyForLeft,
-                      ),
-                    ),
-                  ),
+                  onLeftSwipe: () {
+                    _displayInputBottomSheet(false);
+                  },
                 ),
               ],
             ),
@@ -163,18 +142,22 @@ class _AppHomeState extends State<AppHome> {
     );
   }
 
-  void _handleReply(String reply, SwipeDirection swipeDirection) {
+  void _handleSwipeReply({bool isRightSwipe, String reply}) {
     Navigator.pop(context);
-    setState(() {
-      if (swipeDirection == SwipeDirection.swipeToRight) {
-        _replyForRight = reply;
-      } else {
-        _replyForLeft = reply;
-      }
-    });
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          '$reply',
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor:
+            isRightSwipe ? Colors.red.shade600 : Colors.green.shade600,
+        duration: Duration(milliseconds: 1000),
+      ),
+    );
   }
 
-  void _displayInputBottomSheet(SwipeDirection swipeDirection) {
+  void _displayInputBottomSheet(bool isRightSwipe) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -190,7 +173,9 @@ class _AppHomeState extends State<AppHome> {
             child: TextField(
               autofocus: true,
               textInputAction: TextInputAction.done,
-              onSubmitted: (value) => _handleReply(value, swipeDirection),
+              textCapitalization: TextCapitalization.words,
+              onSubmitted: (value) => _handleSwipeReply(
+                  isRightSwipe: isRightSwipe ? true : false, reply: value),
               decoration: InputDecoration(
                 labelText: 'Reply',
                 hintText: 'enter reply here',

@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  swipe_to: 0.0.1+3
+  swipe_to: 0.0.1+5
 ```
 
 In your library add the following import:
@@ -18,55 +18,57 @@ In your library add the following import:
 ```dart
 import 'package:swipe_to/swipe_to.dart';
 ```
-# Parameter Info
-* **child** : (@required) `StateLess` or `StateFull` flutter widget.
-* **callBack** : (@required) callback which will be initiated at the end of swipe animation
-* **swipeDirection** : Enum value from [``swipeToLeft``, ``swipeToRight``] only. Make sure to pass relative Offset value according to passed ``swipeDirection`` value. If not specified ``swipeToRight`` will be taken as default
-* **animationDuration** : Duration value to define animation duration. if not specidifed default is **150 milliseconds**
-* **iconData** : IconData that will be displayed beneath child widget. if not specified default is `Icons.reply`
-* **iconSize** : double value defining size of displayed icon beneath child widget. if not specified default it will take **26** 
-* **iconColor** : color value defining color of displayed icon beneath child widget. if not specified `primaryColor` from theme will be taken
-* **endOffset** : Offset value till which position of child widget will get animated. if not specified **Offset(0.3, 0.0)** default will be taken
+## Parameter Info
+* **``child``** : (@required) `StateLess` or `StateFull` flutter widget.
+* **``animationDuration``** : Duration value to define animation duration. If not specified default is **150 milliseconds**
+* **``iconOnRightSwipe``** : IconData that will be displayed on left beneath child widget when swiped right. If not specified default is `Icons.reply`
+* **``iconOnLeftSwipe``** : IconData that will be displayed on right beneath child widget when swiped left. If not specified default is `Icons.reply`
+* **``iconSize``** : Double value defining size of displayed icon beneath child widget. If not specified default it will take **26** 
+* **``iconColor``** : Color value defining color of displayed icon beneath child widget. If not specified `primaryColor` from theme will be taken
+* **``offsetDx``** : Double dx value used in ``Offset()`` till which position of child widget will get animated. If not specified **0.3** default will be taken. onRightSwipe +dx value will be used and for onLeftSwipe -dx value will be used
+* **``onRightSwipe``** : callback which will be initiated at the end of right swipe animation. If not passed right swipe will be disabled
+* **``onLeftSwipe``** : callback which will be initiated at the end of left swipe animation. If not passed left swipe will be disabled
+ 
+## Major changes in [ver 0.0.1+5]
+* For a single child widget, we can now enable swipe for both left and right direction
+* ``swipeDirection`` parameter is removed. Now ``onLeftSwipe`` and `onRightSwipe` callback will enable swiping for a particular direction if passed
+* ``iconData`` is now split into two parameter, ``iconOnRightSwipe`` & ``iconOnLeftSwipe`` for future use
+* ``endOffset`` is now change to accept a double value only
+* ``callBack`` is now split into two parameter, ``onLeftSwipe`` & ``onRightSwipe``
 
-Wrap your desired widget with `SwipeTo`.
+## Deprecated/Removed Parameters
+* **swipeDirection** : Enum value from [``swipeToLeft``, ``swipeToRight``] only. Make sure to pass relative Offset value according to passed ``swipeDirection`` value. If not specified ``swipeToRight`` will be taken as default.
+* **iconData** : IconData that will be displayed beneath child widget. if not specified default is `Icons.reply`
+* **endOffset** : Offset value till which position of child widget will get animated. if not specified **Offset(0.3, 0.0)** default will be taken
+* **callBack** : (@required) callback which will be initiated at the end of swipe animation
+
+
 **Example** : **SwipeToRight**
+Wrap your desired widget with `SwipeTo` & pass a call to `onRightSwipe` parameter.
 ```dart
 SwipeTo(
-    swipeDirection: SwipeDirection.swipeToRight,
-    endOffset: Offset(0.3, 0.0),
     child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: Text('Hey You! Swipe me right 👉🏿'),
     ),
-    callBack: () {
+    onRightSwipe: () {
         print('Callback from Swipe To Right');
     },
 ),
 ```
 **Example** : **SwipeToLeft**
+Wrap your desired widget with `SwipeTo` & pass a call to `onLeftSwipe` parameter.
 ```dart
 SwipeTo(
-    swipeDirection: SwipeDirection.swipeToLeft,
-    endOffset: Offset(-0.3, 0.0),
     child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: Text('👈🏿 Hey You! Swipe me Left'),
     ),
-    callBack: () {
+    onLeftSwipe: () {
         print('Callback from Swipe To Left');
     },
 ),
 ```
 ## Sample Outputs
-<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/swipe_right_left.gif" width="256" height="512" title="Swipe Right Left Output">
-<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/android.gif" width="256" height="512" title="Swipe To Android Output">
 <img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/ios.gif" width="256" height="512" title="Swipe To iOS Output">
-
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/android.gif" width="256" height="512" title="Swipe To Android Output">
