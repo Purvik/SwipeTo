@@ -127,6 +127,8 @@ class _AppHomeState extends State<AppHome> {
                     ),
                     child: Text('👈🏿 Swipe me Left OR Swipe me right 👉🏿 '),
                   ),
+                  iconOnLeftSwipe: Icons.arrow_forward,
+                  iconOnRightSwipe: Icons.arrow_back,
                   onRightSwipe: () {
                     _displayInputBottomSheet(true);
                   },

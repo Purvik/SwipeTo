@@ -156,7 +156,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
                   child: Icon(
-                    widget.iconOnLeftSwipe,
+                    widget.iconOnRightSwipe,
                     size: widget.iconSize,
                     color:
                         widget.iconColor ?? Theme.of(context).iconTheme.color,
@@ -170,7 +170,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
                   child: Icon(
-                    widget.iconOnRightSwipe,
+                    widget.iconOnLeftSwipe,
                     size: widget.iconSize,
                     color:
                         widget.iconColor ?? Theme.of(context).iconTheme.color,
