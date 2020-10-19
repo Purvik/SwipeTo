@@ -20,14 +20,14 @@ import 'package:swipe_to/swipe_to.dart';
 ```
 ## Parameter Info
 * **``child``** : (@required) `StateLess` or `StateFull` flutter widget.
-* **``animationDuration``** : Duration value to define animation duration. If not specified default is **150 milliseconds**
+* **``onRightSwipe``** : callback which will be initiated at the end of right swipe animation. If not passed right swipe will be disabled
+* **``onLeftSwipe``** : callback which will be initiated at the end of left swipe animation. If not passed left swipe will be disabled
 * **``iconOnRightSwipe``** : IconData that will be displayed on left beneath child widget when swiped right. If not specified default is `Icons.reply`
 * **``iconOnLeftSwipe``** : IconData that will be displayed on right beneath child widget when swiped left. If not specified default is `Icons.reply`
 * **``iconSize``** : Double value defining size of displayed icon beneath child widget. If not specified default it will take **26** 
 * **``iconColor``** : Color value defining color of displayed icon beneath child widget. If not specified `primaryColor` from theme will be taken
 * **``offsetDx``** : Double dx value used in ``Offset()`` till which position of child widget will get animated. If not specified **0.3** default will be taken. onRightSwipe +dx value will be used and for onLeftSwipe -dx value will be used
-* **``onRightSwipe``** : callback which will be initiated at the end of right swipe animation. If not passed right swipe will be disabled
-* **``onLeftSwipe``** : callback which will be initiated at the end of left swipe animation. If not passed left swipe will be disabled
+* **``animationDuration``** : Duration value to define animation duration. If not specified default is **150 milliseconds**
  
 ## Major changes in [ver 0.0.1+5]
 * For a single child widget, we can now enable swipe for both left and right direction

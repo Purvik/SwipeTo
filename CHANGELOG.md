@@ -14,5 +14,7 @@
 * Added feature to enable swipe on both direction
 * Major Update - SwipeDirection parameter @deprecated now
 * Swipe to left or right feature enabled by onLeftSwipe and onRightSwipe callbacks
-* For more info please refer updated documents  
+* For more info please refer updated documents
+## [0.0.1+6] - 2020-10-19
+* Displayed Icon on Left & Right swipe been fix
 
