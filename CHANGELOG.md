@@ -17,4 +17,6 @@
 * For more info please refer updated documents
 ## [0.0.1+6] - 2020-10-19
 * Displayed Icon on Left & Right swipe been fix
+## [0.0.1+7] - 2020-10-28
+* Added parameter to pass a Widget to display on left & right swipe
 
