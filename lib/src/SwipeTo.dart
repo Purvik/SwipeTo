@@ -16,8 +16,14 @@ class SwipeTo extends StatefulWidget {
   /// Icon that will be displayed beneath child widget when swipe right
   final IconData iconOnRightSwipe;
 
+  /// Widget that will be displayed beneath child widget when swipe right
+  final Widget rightSwipeWidget;
+
   /// Icon that will be displayed beneath child widget when swipe left
   final IconData iconOnLeftSwipe;
+
+  /// Widget that will be displayed beneath child widget when swipe right
+  final Widget leftSwipeWidget;
 
   /// double value defining size of displayed icon beneath child widget
   /// if not specified default size 26 will be taken
@@ -48,7 +54,9 @@ class SwipeTo extends StatefulWidget {
     this.onRightSwipe,
     this.onLeftSwipe,
     this.iconOnRightSwipe = Icons.reply,
+    this.rightSwipeWidget,
     this.iconOnLeftSwipe = Icons.reply,
+    this.leftSwipeWidget,
     this.iconSize = 26.0,
     this.iconColor,
     this.animationDuration = const Duration(milliseconds: 150),
@@ -155,12 +163,14 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   opacity: _leftIconAnimation.value,
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
-                  child: Icon(
-                    widget.iconOnRightSwipe,
-                    size: widget.iconSize,
-                    color:
-                        widget.iconColor ?? Theme.of(context).iconTheme.color,
-                  ),
+                  child: widget.rightSwipeWidget != null
+                      ? widget.rightSwipeWidget
+                      : Icon(
+                          widget.iconOnRightSwipe,
+                          size: widget.iconSize,
+                          color: widget.iconColor ??
+                              Theme.of(context).iconTheme.color,
+                        ),
                 ),
               ),
               Visibility(
@@ -169,12 +179,14 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   opacity: _rightIconAnimation.value,
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
-                  child: Icon(
-                    widget.iconOnLeftSwipe,
-                    size: widget.iconSize,
-                    color:
-                        widget.iconColor ?? Theme.of(context).iconTheme.color,
-                  ),
+                  child: widget.leftSwipeWidget != null
+                      ? widget.leftSwipeWidget
+                      : Icon(
+                          widget.iconOnLeftSwipe,
+                          size: widget.iconSize,
+                          color: widget.iconColor ??
+                              Theme.of(context).iconTheme.color,
+                        ),
                 ),
               ),
             ],

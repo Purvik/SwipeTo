@@ -72,3 +72,8 @@ SwipeTo(
 ## Sample Outputs
 <img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/ios.gif" width="256" height="512" title="Swipe To iOS Output">
 <img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/android.gif" width="256" height="512" title="Swipe To Android Output">
+<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/ios_widget_in_back.gif" width="256" height="512" title="Swipe To iOS Output with Widget in back">
+<img src="https://github.com/Purvik/SwipeTo/raw/master/example/output/android_widget_in_back.gif" width="256" height="512" title="Swipe To Android Output with Widget in back">
+
+## References to learn
+https://medium.com/@purvik1239/enable-swiping-right-left-for-your-flutter-application-widgets-a7b556674f9c
