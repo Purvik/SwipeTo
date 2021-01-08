@@ -14,16 +14,20 @@ class SwipeTo extends StatefulWidget {
   final Duration animationDuration;
 
   /// Icon that will be displayed beneath child widget when swipe right
+  @Deprecated('Use SwipeTo.rightSwipeWidget'
+      'This property was deprecated after v0.0.1+8')
   final IconData iconOnRightSwipe;
 
   /// Widget that will be displayed beneath child widget when swipe right
-  final Widget rightSwipeWidget;
+  final Widget? rightSwipeWidget;
 
   /// Icon that will be displayed beneath child widget when swipe left
+  @Deprecated('Use SwipeTo.leftSwipeWidget'
+      'This property was deprecated after v0.0.1+8')
   final IconData iconOnLeftSwipe;
 
   /// Widget that will be displayed beneath child widget when swipe right
-  final Widget leftSwipeWidget;
+  final Widget? leftSwipeWidget;
 
   /// double value defining size of displayed icon beneath child widget
   /// if not specified default size 26 will be taken
@@ -31,7 +35,7 @@ class SwipeTo extends StatefulWidget {
 
   /// color value defining color of displayed icon beneath child widget
   ///if not specified primaryColor from theme will be taken
-  final Color iconColor;
+  final Color? iconColor;
 
   /// Double value till which position child widget will get animate when swipe left
   /// or swipe right
@@ -42,15 +46,15 @@ class SwipeTo extends StatefulWidget {
   /// callback which will be initiated at the end of child widget animation
   /// when swiped right
   /// if not passed swipe to right will be not available
-  final VoidCallback onRightSwipe;
+  final VoidCallback? onRightSwipe;
 
   /// callback which will be initiated at the end of child widget animation
   /// when swiped left
   /// if not passed swipe to left will be not available
-  final VoidCallback onLeftSwipe;
+  final VoidCallback? onLeftSwipe;
 
   SwipeTo({
-    @required this.child,
+    required this.child,
     this.onRightSwipe,
     this.onLeftSwipe,
     this.iconOnRightSwipe = Icons.reply,
@@ -61,20 +65,20 @@ class SwipeTo extends StatefulWidget {
     this.iconColor,
     this.animationDuration = const Duration(milliseconds: 150),
     this.offsetDx = 0.3,
-  }) : assert(child != null, "You must pass a child widget.");
+  });
 
   @override
   _SwipeToState createState() => _SwipeToState();
 }
 
 class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<Offset> _animation;
-  Animation<double> _leftIconAnimation;
-  Animation<double> _rightIconAnimation;
+  late final AnimationController _controller;
+  late Animation<Offset> _animation;
+  late Animation<double> _leftIconAnimation;
+  late Animation<double> _rightIconAnimation;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -98,14 +102,14 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
   }
 
   @override
-  dispose() {
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-  ///Run animation for child widget
-  ///[onRight] value defines animation Offset direction
-  void _runAnimation({bool onRight}) {
+  /// Run animation for child widget
+  /// [onRight] value defines animation Offset direction
+  void _runAnimation({required bool onRight}) {
     //set child animation
     _animation = Tween(
       begin: const Offset(0.0, 0.0),
@@ -129,11 +133,11 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
         if (onRight) {
           //keep left icon visibility to 0.0 until onRightSwipe triggers again
           _leftIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
-          widget.onRightSwipe();
+          widget.onRightSwipe!();
         } else {
           //keep right icon visibility to 0.0 until onLeftSwipe triggers again
           _rightIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
-          widget.onLeftSwipe();
+          widget.onLeftSwipe!();
         }
       });
     });
@@ -163,14 +167,14 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   opacity: _leftIconAnimation.value,
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
-                  child: widget.rightSwipeWidget != null
-                      ? widget.rightSwipeWidget
-                      : Icon(
-                          widget.iconOnRightSwipe,
-                          size: widget.iconSize,
-                          color: widget.iconColor ??
-                              Theme.of(context).iconTheme.color,
-                        ),
+                  child: widget.rightSwipeWidget ??
+                      // TODO: Once remove the iconOnRightSwipe, replace it with Icons.reply.
+                      Icon(
+                        widget.iconOnRightSwipe,
+                        size: widget.iconSize,
+                        color: widget.iconColor ??
+                            Theme.of(context).iconTheme.color,
+                      ),
                 ),
               ),
               Visibility(
@@ -179,14 +183,14 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   opacity: _rightIconAnimation.value,
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
-                  child: widget.leftSwipeWidget != null
-                      ? widget.leftSwipeWidget
-                      : Icon(
-                          widget.iconOnLeftSwipe,
-                          size: widget.iconSize,
-                          color: widget.iconColor ??
-                              Theme.of(context).iconTheme.color,
-                        ),
+                  child: widget.leftSwipeWidget ??
+                      // TODO: Once remove the iconOnLeftSwipe, replace it with Icons.reply.
+                      Icon(
+                        widget.iconOnLeftSwipe,
+                        size: widget.iconSize,
+                        color: widget.iconColor ??
+                            Theme.of(context).iconTheme.color,
+                      ),
                 ),
               ),
             ],
