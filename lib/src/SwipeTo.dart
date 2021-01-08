@@ -31,10 +31,16 @@ class SwipeTo extends StatefulWidget {
 
   /// double value defining size of displayed icon beneath child widget
   /// if not specified default size 26 will be taken
+  @Deprecated('Use SwipeTo.rightSwipeWidget or SwipeTo.leftSwipeWidget'
+      'to pass the Icon widget with desired size.'
+      'This property was deprecated after v0.0.1+8')
   final double iconSize;
 
   /// color value defining color of displayed icon beneath child widget
   ///if not specified primaryColor from theme will be taken
+  @Deprecated('Use SwipeTo.rightSwipeWidget or SwipeTo.leftSwipeWidget'
+      'to pass the Icon widget with desired color.'
+      'This property was deprecated after v0.0.1+8')
   final Color? iconColor;
 
   /// Double value till which position child widget will get animate when swipe left
@@ -168,7 +174,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
                   child: widget.rightSwipeWidget ??
-                      // TODO: Once remove the iconOnRightSwipe, replace it with Icons.reply.
+                      // TODO: Replace with default values once we remove the deprecated properties
                       Icon(
                         widget.iconOnRightSwipe,
                         size: widget.iconSize,
@@ -184,7 +190,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
                   duration: widget.animationDuration,
                   curve: Curves.decelerate,
                   child: widget.leftSwipeWidget ??
-                      // TODO: Once remove the iconOnLeftSwipe, replace it with Icons.reply.
+                      // TODO: Replace with default values once we remove the deprecated properties
                       Icon(
                         widget.iconOnLeftSwipe,
                         size: widget.iconSize,

@@ -11,7 +11,7 @@ Widget prepareWidgetForTesting(Widget child) => MaterialApp(
     );
 
 void main() {
-  testWidgets('SwipeTo swipeRight test', (WidgetTester tester) async {
+  testWidgets('SwipeTo.swipeRight test', (WidgetTester tester) async {
     final logs = <String>[];
 
     await tester.pumpWidget(
@@ -28,14 +28,12 @@ void main() {
     expect(logs.isEmpty, true);
 
     await tester.drag(find.byType(SwipeTo), Offset(40.0, 0.0));
-    expect(find.byIcon(Icons.reply), findsOneWidget);
-
     await tester.pumpAndSettle();
 
     expect(logs.isEmpty, false);
   });
 
-  testWidgets('SwipeTo swipeLeft test', (WidgetTester tester) async {
+  testWidgets('SwipeTo.swipeLeft test', (WidgetTester tester) async {
     final logs = <String>[];
 
     await tester.pumpWidget(
@@ -52,10 +50,78 @@ void main() {
     expect(logs.isEmpty, true);
 
     await tester.drag(find.byType(SwipeTo), Offset(-40.0, 0.0));
-    expect(find.byIcon(Icons.reply), findsOneWidget);
-
     await tester.pumpAndSettle();
 
     expect(logs.isEmpty, false);
+  });
+
+  testWidgets('SwipeTo.rightSwipeWidget default widget test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      prepareWidgetForTesting(
+        SwipeTo(
+          child: ListTile(title: Text('Hey')),
+          onRightSwipe: () {},
+        ),
+      ),
+    );
+
+    await tester.drag(find.byType(SwipeTo), Offset(40.0, 0.0));
+
+    expect(find.byIcon(Icons.reply), findsOneWidget);
+    final icon = tester.widget<Icon>(find.byIcon(Icons.reply));
+    expect(icon.size, 26);
+  });
+
+  testWidgets('SwipeTo.leftSwipeWidget default widget test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      prepareWidgetForTesting(
+        SwipeTo(
+          child: ListTile(title: Text('Hey')),
+          onLeftSwipe: () {},
+        ),
+      ),
+    );
+
+    await tester.drag(find.byType(SwipeTo), Offset(-40.0, 0.0));
+
+    expect(find.byIcon(Icons.reply), findsOneWidget);
+    final icon = tester.widget<Icon>(find.byIcon(Icons.reply));
+    expect(icon.size, 26);
+  });
+
+  testWidgets('SwipeTo.rightSwipeWidget test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      prepareWidgetForTesting(
+        SwipeTo(
+          child: ListTile(title: Text('Hey')),
+          rightSwipeWidget: FlutterLogo(),
+          onRightSwipe: () {},
+        ),
+      ),
+    );
+
+    await tester.drag(find.byType(SwipeTo), Offset(40.0, 0.0));
+    expect(find.byType(FlutterLogo), findsOneWidget);
+
+    await tester.pumpAndSettle();
+    expect(find.byType(FlutterLogo), findsOneWidget);
+  });
+
+  testWidgets('SwipeTo.leftSwipeWidget test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      prepareWidgetForTesting(
+        SwipeTo(
+          child: ListTile(title: Text('Hey')),
+          leftSwipeWidget: FlutterLogo(),
+          onLeftSwipe: () {},
+        ),
+      ),
+    );
+
+    await tester.drag(find.byType(SwipeTo), Offset(-40.0, 0.0));
+    expect(find.byType(FlutterLogo), findsOneWidget);
+
+    await tester.pumpAndSettle();
+    expect(find.byType(FlutterLogo), findsOneWidget);
   });
 }
