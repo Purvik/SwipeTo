@@ -127,15 +127,11 @@ class _AppHomeState extends State<AppHome> {
                     ),
                     child: Text('👈🏿 Swipe me Left OR Swipe me right 👉🏿 '),
                   ),
-                  iconOnLeftSwipe: Icons.arrow_forward,
                   leftSwipeWidget: FlutterLogo(
                     size: 30.0,
-                    colors: Colors.green,
                   ),
-                  iconOnRightSwipe: Icons.arrow_back,
                   rightSwipeWidget: FlutterLogo(
                     size: 30.0,
-                    colors: Colors.orange,
                   ),
                   onRightSwipe: () {
                     _displayInputBottomSheet(true);
@@ -168,7 +164,7 @@ class _AppHomeState extends State<AppHome> {
   }
 
   void _displayInputBottomSheet(bool isRightSwipe) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (context) {
         return Padding(
