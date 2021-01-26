@@ -21,4 +21,8 @@
 * Added parameter to pass a Widget to display on left & right swipe
 ## [0.0.1+8] - 2020-10-31
 * Guideline Updates
+## [0.1.0-nullsafety.] - 2021-01-26
+* Package migrated to null safety but still as pre-release version until stable null safety
+* Future deprecation added to `iconOnRightSwipe`, `iconOnLeftSwipe`, `iconColor` & `iconSize` parameters
+
 
