@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  swipe_to: 0.0.1+8
+  swipe_to: 1.0.0
 ```
 
 In your library add the following import:

@@ -21,4 +21,5 @@
 * Added parameter to pass a Widget to display on left & right swipe
 ## [0.0.1+8] - 2020-10-31
 * Guideline Updates
-
+## [1.0.0] - 2022-02-24
+* Migrated Null Safety Now
