@@ -1,3 +1,3 @@
 library swipe_to;
 
-export './src/SwipeTo.dart';
+export './src/swipe_to.dart';

@@ -51,7 +51,8 @@ class SwipeTo extends StatefulWidget {
   /// if not passed swipe to left will be not available
   final VoidCallback? onLeftSwipe;
 
-  SwipeTo({
+  const SwipeTo({
+    Key? key,
     required this.child,
     this.onRightSwipe,
     this.onLeftSwipe,
@@ -63,7 +64,7 @@ class SwipeTo extends StatefulWidget {
     this.iconColor,
     this.animationDuration = const Duration(milliseconds: 150),
     this.offsetDx = 0.3,
-  });
+  }) : super(key: key);
 
   @override
   _SwipeToState createState() => _SwipeToState();
