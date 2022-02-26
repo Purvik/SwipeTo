@@ -57,21 +57,10 @@ class _AppHomeState extends State<AppHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SwipeTo(
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(
-                            10.0,
-                          ),
-                        ),
-                      ),
-                      child: const Text('Hey You! Swipe me right 👉🏿'),
+                    child: MessageViewWidget(
+                      label: 'Hey You! Swipe me right 👉🏿',
                     ),
                   ),
                   onRightSwipe: () {
@@ -87,21 +76,10 @@ class _AppHomeState extends State<AppHome> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 SwipeTo(
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.centerRight,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(
-                            10.0,
-                          ),
-                        ),
-                      ),
-                      child: const Text('👈🏿 Hey You! Swipe me Left'),
+                    child: MessageViewWidget(
+                      label: '👈🏿 Hey You! Swipe me Left',
                     ),
                   ),
                   onLeftSwipe: () {
@@ -117,20 +95,8 @@ class _AppHomeState extends State<AppHome> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 SwipeTo(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          10.0,
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                        '👈🏿 Swipe me Left OR Swipe me right 👉🏿 '),
+                  child: const MessageViewWidget(
+                    label: '👈🏿 Swipe me Left OR Swipe me right 👉🏿 ',
                   ),
                   iconOnLeftSwipe: Icons.arrow_forward,
                   leftSwipeWidget: const FlutterLogo(
@@ -205,5 +171,30 @@ class _AppHomeState extends State<AppHome> {
         );
       },
     );
+  }
+}
+
+class MessageViewWidget extends StatelessWidget {
+  const MessageViewWidget({
+    Key? key,
+    required this.label,
+  }) : super(key: key);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.blue.shade100,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(
+              10.0,
+            ),
+          ),
+        ),
+        child: Text(label));
   }
 }

@@ -1,3 +1,5 @@
+## [1.0.2] - 2022-02-26
+* Code Improvements
 ## [1.0.1] - 2022-02-25
 * Code updated and score fixes
 ## [1.0.0] - 2022-02-24

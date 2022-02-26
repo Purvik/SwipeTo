@@ -1,6 +1,6 @@
 name: swipe_to
 description: SwipeTo is a wrapper for a chat view widget which can be used initiate callback when user horizontally swipe on it.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/Purvik/SwipeTo.git
 
 environment:
