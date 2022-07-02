@@ -44,12 +44,12 @@ class SwipeTo extends StatefulWidget {
   /// callback which will be initiated at the end of child widget animation
   /// when swiped right
   /// if not passed swipe to right will be not available
-  final VoidCallback? onRightSwipe;
+  final GestureDragUpdateCallback? onRightSwipe;
 
   /// callback which will be initiated at the end of child widget animation
   /// when swiped left
   /// if not passed swipe to left will be not available
-  final VoidCallback? onLeftSwipe;
+  final GestureDragUpdateCallback? onLeftSwipe;
 
   const SwipeTo({
     Key? key,
@@ -75,8 +75,8 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
   late Animation<Offset> _animation;
   late Animation<double> _leftIconAnimation;
   late Animation<double> _rightIconAnimation;
-  late VoidCallback _onSwipeLeft;
-  late VoidCallback _onSwipeRight;
+  late GestureDragUpdateCallback _onSwipeLeft;
+  late GestureDragUpdateCallback _onSwipeRight;
 
   @override
   initState() {
@@ -97,13 +97,11 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
     _rightIconAnimation = _controller.drive(
       Tween<double>(begin: 0.0, end: 0.0),
     );
-    _onSwipeLeft = widget.onLeftSwipe ??
-        () {
+    _onSwipeLeft = widget.onLeftSwipe ?? (details) {
           log("Left Swipe Not Provided");
         };
 
-    _onSwipeRight = widget.onRightSwipe ??
-        () {
+    _onSwipeRight = widget.onRightSwipe ?? (details) {
           log("Right Swipe Not Provided");
         };
     _controller.addListener(() {
@@ -119,7 +117,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
 
   ///Run animation for child widget
   ///[onRight] value defines animation Offset direction
-  void _runAnimation({required bool onRight}) {
+  void _runAnimation({required bool onRight, details}) {
     //set child animation
     _animation = Tween(
       begin: const Offset(0.0, 0.0),
@@ -143,12 +141,12 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
         if (onRight) {
           //keep left icon visibility to 0.0 until onRightSwipe triggers again
           _leftIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
-          _onSwipeRight();
+          _onSwipeRight(details);
         } else {
           //keep right icon visibility to 0.0 until onLeftSwipe triggers again
           _rightIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
 
-          _onSwipeLeft();
+          _onSwipeLeft(details);
         }
       });
     });
@@ -157,7 +155,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onHorizontalDragUpdate: (details) {
+      onPanUpdate: (details) {
         if (details.delta.dx > 1 && widget.onRightSwipe != null) {
           _runAnimation(onRight: true);
         }
