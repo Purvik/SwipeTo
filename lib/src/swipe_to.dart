@@ -157,10 +157,10 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
     return GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx > 1 && widget.onRightSwipe != null) {
-          _runAnimation(onRight: true);
+          _runAnimation(onRight: true,  details: details);
         }
         if (details.delta.dx < -1 && widget.onLeftSwipe != null) {
-          _runAnimation(onRight: false);
+          _runAnimation(onRight: false, details: details);
         }
       },
       child: Stack(
