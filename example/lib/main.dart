@@ -63,7 +63,7 @@ class _AppHomeState extends State<AppHome> {
                       label: 'Hey You! Swipe me right 👉🏿',
                     ),
                   ),
-                  onRightSwipe: () {
+                  onRightSwipe: (details) {
                     _displayInputBottomSheet(true);
                   },
                 ),
@@ -82,7 +82,7 @@ class _AppHomeState extends State<AppHome> {
                       label: '👈🏿 Hey You! Swipe me Left',
                     ),
                   ),
-                  onLeftSwipe: () {
+                  onLeftSwipe: (details) {
                     _displayInputBottomSheet(false);
                   },
                 ),
@@ -106,10 +106,10 @@ class _AppHomeState extends State<AppHome> {
                   rightSwipeWidget: const FlutterLogo(
                     size: 30.0,
                   ),
-                  onRightSwipe: () {
+                  onRightSwipe: (details) {
                     _displayInputBottomSheet(true);
                   },
-                  onLeftSwipe: () {
+                  onLeftSwipe: (details) {
                     _displayInputBottomSheet(false);
                   },
                 ),
