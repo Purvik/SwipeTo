@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "swipe_to_updated",
+            "name": "swipe_to",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "swipe_to_updated (profile mode)",
+            "name": "swipe_to (profile)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
@@ -22,7 +22,7 @@
             "type": "dart"
         },
         {
-            "name": "example (profile mode)",
+            "name": "example (profile)",
             "cwd": "example",
             "request": "launch",
             "type": "dart",
