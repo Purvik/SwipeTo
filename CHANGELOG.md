@@ -1,3 +1,5 @@
+## [1.0.4] - 2023-11-21
+* Parameter added to handle `swipeSensitivity` to trigger left/right swipe animation as well as callback
 ## [1.0.3] - 2023-11-20
 * Code Improvements
 ## [1.0.2] - 2022-02-26

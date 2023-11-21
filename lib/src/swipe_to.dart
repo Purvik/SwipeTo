@@ -51,6 +51,11 @@ class SwipeTo extends StatefulWidget {
   /// if not passed swipe to left will be not available
   final GestureDragUpdateCallback? onLeftSwipe;
 
+  /// Integer specifying value above which it will sense swipe to get triggerred
+  /// default minimum value is 20 and maximum value is 35
+  /// Putting max value will require use to swipe in short time to get swipe in effect
+  final int swipeSensitivity;
+
   const SwipeTo({
     Key? key,
     required this.child,
@@ -64,7 +69,10 @@ class SwipeTo extends StatefulWidget {
     this.iconColor,
     this.animationDuration = const Duration(milliseconds: 150),
     this.offsetDx = 0.3,
-  }) : super(key: key);
+    this.swipeSensitivity = 20,
+  })  : assert(swipeSensitivity >= 20 && swipeSensitivity <= 35,
+            "swipeSensitivity value must be between 20 to 35"),
+        super(key: key);
 
   @override
   _SwipeToState createState() => _SwipeToState();
@@ -147,7 +155,6 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
         } else {
           //keep right icon visibility to 0.0 until onLeftSwipe triggers again
           _rightIconAnimation = _controller.drive(Tween(begin: 0.0, end: 0.0));
-
           _onSwipeLeft(details);
         }
       });
@@ -158,10 +165,12 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: (details) {
-        if (details.delta.dx > 1 && widget.onRightSwipe != null) {
+        if (details.delta.dx > widget.swipeSensitivity &&
+            widget.onRightSwipe != null) {
           _runAnimation(onRight: true, details: details);
         }
-        if (details.delta.dx < -1 && widget.onLeftSwipe != null) {
+        if (details.delta.dx < -(widget.swipeSensitivity) &&
+            widget.onLeftSwipe != null) {
           _runAnimation(onRight: false, details: details);
         }
       },
