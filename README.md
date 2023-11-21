@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  swipe_to: 1.0.2
+  swipe_to: 1.0.4
 ```
 
 In your library add the following import:
@@ -30,6 +30,7 @@ import 'package:swipe_to/swipe_to.dart';
 * **``iconColor``** : Color value defining color of displayed icon beneath child widget. If not specified `primaryColor` from theme will be taken
 * **``offsetDx``** : Double dx value used in ``Offset()`` till which position of child widget will get animated. If not specified **0.3** default will be taken. onRightSwipe +dx value will be used and for onLeftSwipe -dx value will be used
 * **``animationDuration``** : Duration value to define animation duration. If not specified default is **150 milliseconds**
+* **``swipeSensitivity``** : Swipe sensitivity integer value which will be in range of default min 20 to max 35. Crossing mentioned value of this parameter (+ve in right and -ve in left direction) will trigger swipe animation.
  
 ## Major changes onwards [ver 0.0.1+5]
 * For a single child widget, we can now enable swipe for both left and right direction
