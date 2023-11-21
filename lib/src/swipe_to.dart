@@ -97,11 +97,13 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
     _rightIconAnimation = _controller.drive(
       Tween<double>(begin: 0.0, end: 0.0),
     );
-    _onSwipeLeft = widget.onLeftSwipe ?? (details) {
+    _onSwipeLeft = widget.onLeftSwipe ??
+        (details) {
           log("Left Swipe Not Provided");
         };
 
-    _onSwipeRight = widget.onRightSwipe ?? (details) {
+    _onSwipeRight = widget.onRightSwipe ??
+        (details) {
           log("Right Swipe Not Provided");
         };
     _controller.addListener(() {
@@ -157,7 +159,7 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
     return GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx > 1 && widget.onRightSwipe != null) {
-          _runAnimation(onRight: true,  details: details);
+          _runAnimation(onRight: true, details: details);
         }
         if (details.delta.dx < -1 && widget.onLeftSwipe != null) {
           _runAnimation(onRight: false, details: details);
