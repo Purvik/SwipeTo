@@ -54,7 +54,7 @@ SwipeTo(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: Text('Hey You! Swipe me right 👉🏿'),
     ),
-    onRightSwipe: () {
+    onRightSwipe: (details) {
         print('Callback from Swipe To Right');
     },
 ),
@@ -67,7 +67,7 @@ SwipeTo(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: Text('👈🏿 Hey You! Swipe me Left'),
     ),
-    onLeftSwipe: () {
+    onLeftSwipe: (details) {
         print('Callback from Swipe To Left');
     },
 ),
@@ -81,10 +81,10 @@ SwipeTo(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: Text('👈🏿 Swipe me Left | YOU |Swipe me right 👉🏿'),
     ),
-    onLeftSwipe: () {
+    onLeftSwipe: (details) {
         print('Callback from Swipe To Left');
     },
-    onRightSwipe: () {
+    onRightSwipe: (details) {
         print('Callback from Swipe To Right');
     },
 ),
