@@ -112,7 +112,7 @@ class _AppHomeState extends State<AppHome> {
                   onLeftSwipe: (details) {
                     _displayInputBottomSheet(false);
                   },
-                  swipeSensitivity: 20,
+                  swipeSensitivity: 10,
                 ),
               ],
             ),
