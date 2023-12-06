@@ -1,3 +1,5 @@
+## [1.0.5] - 2023-12-07
+* Allowed `swipeSensitivity` parameter min value to 5 from previous 20 keeping max 35 as it is.
 ## [1.0.4] - 2023-11-21
 * Parameter added to handle `swipeSensitivity` to trigger left/right swipe animation as well as callback
 ## [1.0.3] - 2023-11-20

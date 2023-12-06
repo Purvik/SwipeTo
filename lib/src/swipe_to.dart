@@ -69,9 +69,9 @@ class SwipeTo extends StatefulWidget {
     this.iconColor,
     this.animationDuration = const Duration(milliseconds: 150),
     this.offsetDx = 0.3,
-    this.swipeSensitivity = 20,
-  })  : assert(swipeSensitivity >= 20 && swipeSensitivity <= 35,
-            "swipeSensitivity value must be between 20 to 35"),
+    this.swipeSensitivity = 5,
+  })  : assert(swipeSensitivity >= 5 && swipeSensitivity <= 35,
+            "swipeSensitivity value must be between 5 to 35"),
         super(key: key);
 
   @override
