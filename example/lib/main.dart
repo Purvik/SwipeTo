@@ -1,3 +1,4 @@
+import 'package:example/list_home.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
 
@@ -41,6 +42,24 @@ class _AppHomeState extends State<AppHome> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Swipe To Example'),
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blueGrey,
+        elevation: 4.0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListHome(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.list_alt_rounded,
+            ),
+          ),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
