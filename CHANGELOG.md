@@ -1,3 +1,5 @@
+## [1.0.6] - 2024-02-12
+* Added `ListView`usage instructions and example
 ## [1.0.5] - 2023-12-07
 * Allowed `swipeSensitivity` parameter min value to 5 from previous 20 keeping max 35 as it is.
 ## [1.0.4] - 2023-11-21

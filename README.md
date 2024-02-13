@@ -10,7 +10,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  swipe_to: 1.0.5
+  swipe_to: 1.0.6
 ```
 
 In your library add the following import:
@@ -39,6 +39,28 @@ import 'package:swipe_to/swipe_to.dart';
 * ``endOffset`` is now change to accept a double value only
 * ``callBack`` is now split into two parameter, ``onLeftSwipe`` & ``onRightSwipe``
 
+## Using `SwipeTo` widget for `ListView` items
+While using `SwipeTo` widget for `ListView` items, make sure to pass a `Key()` as `key` parameter of `SwipeTo` widget. Suggested to use `UniqueKey()` which will differentiate each individual widget in the Widget Tree. Check example below. To view example code [click here](https://github.com/Purvik/SwipeTo/blob/master/example/lib/list_home.dart).
+
+```dart
+ListView(
+    children: snapshot.data!.map((name) {
+        return SwipeTo(
+            key: UniqueKey(),
+            iconOnLeftSwipe: Icons.arrow_forward,
+            iconOnRightSwipe: Icons.arrow_back,
+            onRightSwipe: (details) {
+                log("\n Left Swipe Data --> $name");
+            },
+            swipeSensitivity: 20,
+            child: ListTile(
+                tileColor: Colors.cyan.shade200,
+                title: Text(name),
+            ),
+        );
+    }).toList(),
+);
+```
 ## Deprecated/Removed Parameters
 * **swipeDirection** : Enum value from [``swipeToLeft``, ``swipeToRight``] only. Make sure to pass relative Offset value according to passed ``swipeDirection`` value. If not specified ``swipeToRight`` will be taken as default.
 * **iconData** : IconData that will be displayed beneath child widget. if not specified default is `Icons.reply`
