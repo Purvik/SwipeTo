@@ -161,6 +161,20 @@ class _SwipeToState extends State<SwipeTo> with SingleTickerProviderStateMixin {
     });
   }
 
+  // @override
+  // void didUpdateWidget(covariant SwipeTo oldWidget) {
+  //   _onSwipeLeft = widget.onLeftSwipe ??
+  //       (details) {
+  //         log("Left Swipe Not Provided");
+  //       };
+
+  //   _onSwipeRight = widget.onRightSwipe ??
+  //       (details) {
+  //         log("Right Swipe Not Provided");
+  //       };
+  //   super.didUpdateWidget(oldWidget);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:example/list_home.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -35,6 +37,7 @@ class AppHome extends StatefulWidget {
 
 class _AppHomeState extends State<AppHome> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _swipeEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,7 @@ class _AppHomeState extends State<AppHome> {
         title: const Text('Swipe To Example'),
         foregroundColor: Colors.white,
         backgroundColor: Colors.blueGrey,
+        centerTitle: true,
         elevation: 4.0,
         actions: [
           IconButton(
@@ -57,6 +61,17 @@ class _AppHomeState extends State<AppHome> {
             },
             icon: const Icon(
               Icons.list_alt_rounded,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              log("Swipe Enabled: ${!_swipeEnabled}");
+              setState(() {
+                _swipeEnabled = !_swipeEnabled;
+              });
+            },
+            icon: const Icon(
+              Icons.disabled_by_default_rounded,
             ),
           ),
         ],
@@ -82,15 +97,18 @@ class _AppHomeState extends State<AppHome> {
                       label: 'Hey You! Swipe me right 👉🏿',
                     ),
                   ),
-                  onRightSwipe: (details) {
-                    _displayInputBottomSheet(true);
-                  },
+                  onRightSwipe: _swipeEnabled
+                      ? (details) {
+                          // _displayInputBottomSheet(true);
+                          log("Swipped");
+                        }
+                      : null,
                 ),
               ],
             ),
 
             ///SwipeToLeft Example
-            Column(
+            /* Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -106,10 +124,10 @@ class _AppHomeState extends State<AppHome> {
                   },
                 ),
               ],
-            ),
+            ), */
 
             ///SwipeToRight & SwipeToLeft Example
-            Column(
+            /* Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -134,7 +152,7 @@ class _AppHomeState extends State<AppHome> {
                   swipeSensitivity: 10,
                 ),
               ],
-            ),
+            ), */
           ],
         ),
       ),
